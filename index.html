@@ -1,1 +1,835 @@
-<h1>index</h1>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RGB Test</title>
+  <style>
+    :root {
+      --bg: #f6f1e8;
+      --panel: #fffaf2;
+      --panel-strong: #fff;
+      --ink: #1f2a33;
+      --muted: #6b7680;
+      --line: #d9cdbd;
+      --accent: #0b6e6e;
+      --accent-2: #d95d39;
+      --ok: #1d7a4f;
+      --warn: #a76400;
+      --shadow: 0 16px 40px rgba(40, 30, 20, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(217, 93, 57, 0.12), transparent 34%),
+        radial-gradient(circle at top right, rgba(11, 110, 110, 0.12), transparent 30%),
+        linear-gradient(180deg, #f9f3ea 0%, var(--bg) 100%);
+      min-height: 100vh;
+    }
+
+    .shell {
+      width: min(1100px, calc(100vw - 32px));
+      margin: 24px auto 48px;
+    }
+
+    .hero,
+    .panel {
+      background: rgba(255, 250, 242, 0.92);
+      border: 1px solid rgba(217, 205, 189, 0.8);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero {
+      padding: 24px;
+      margin-bottom: 18px;
+    }
+
+    .hero h1 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p,
+    .hint,
+    .note,
+    .status {
+      color: var(--muted);
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      line-height: 1.5;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 18px;
+    }
+
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .row:last-child {
+      margin-bottom: 0;
+    }
+
+    label {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--muted);
+      min-width: 86px;
+    }
+
+    input,
+    select,
+    button,
+    textarea {
+      font: inherit;
+    }
+
+    input[type="number"],
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--ink);
+      padding: 10px 12px;
+    }
+
+    input[type="color"] {
+      inline-size: 56px;
+      block-size: 44px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--panel-strong);
+      padding: 4px;
+    }
+
+    input[type="checkbox"] {
+      transform: translateY(1px);
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 120ms ease, opacity 120ms ease, background 120ms ease;
+    }
+
+    button.alt {
+      background: var(--accent-2);
+    }
+
+    button.ghost {
+      background: #eadfce;
+      color: var(--ink);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(11, 110, 110, 0.08);
+      color: var(--ink);
+    }
+
+    .status strong.ok {
+      color: var(--ok);
+    }
+
+    .status strong.warn {
+      color: var(--warn);
+    }
+
+    .two {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+
+    .three {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+
+    code {
+      background: rgba(31, 42, 51, 0.06);
+      border-radius: 6px;
+      padding: 2px 6px;
+    }
+
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background: #1d232a;
+      color: #e8f0f2;
+      border-radius: 14px;
+      padding: 14px;
+      min-height: 220px;
+      max-height: 360px;
+      overflow: auto;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .mono {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    @media (max-width: 760px) {
+      .two,
+      .three {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <h1>Cushion96 RGB Test</h1>
+      <p>
+        WebHID test page for the current Raw HID firmware on <code>VID 0x3233</code> / <code>PID 0x2501</code>.
+        This page targets the RGB-related commands that are already implemented in <code>cushion96.c</code>.
+      </p>
+    </section>
+
+    <div class="grid">
+      <section class="panel">
+        <h2>Connection</h2>
+        <div class="row">
+          <button id="connectBtn">Connect Device</button>
+          <button id="reconnectBtn" class="ghost">Reconnect Known Device</button>
+        </div>
+        <div class="row">
+          <span class="pill status" id="deviceStatus">Status: <strong class="warn">Disconnected</strong></span>
+        </div>
+        <div class="row note" id="deviceMeta">
+          WebHID requires Chromium-based browsers on <code>https://</code> or <code>http://localhost</code>.
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Profile Routing</h2>
+        <div class="row two">
+          <label>
+            Target profile
+            <select id="profileSelect">
+              <option value="0">PROF_VIA</option>
+              <option value="1">PROF_0</option>
+              <option value="2">PROF_1</option>
+              <option value="3">PROF_2</option>
+            </select>
+          </label>
+          <label>
+            Active profile
+            <input id="activeProfile" type="text" readonly value="Unknown">
+          </label>
+        </div>
+        <div class="row">
+          <label class="pill">
+            <input id="compatSwitch" type="checkbox" checked>
+            Temporarily switch profile before RGB writes, then restore it
+          </label>
+        </div>
+        <div class="row">
+          <button id="getProfileBtn" class="ghost">Read Active Profile</button>
+          <button id="setProfileBtn" class="alt">Set Active Profile</button>
+        </div>
+        <div class="note">
+          Current firmware writes commands like <code>0x31</code>, <code>0x36</code>, <code>0x39</code>, <code>0x3B</code>, <code>0x3D</code>
+          to the currently active profile, so this page can switch for you automatically.
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Keypress RGB</h2>
+        <div class="row">
+          <input id="keypressColor" type="color" value="#ffffff" aria-label="Keypress color">
+          <div class="three">
+            <label>R<input id="keypressR" type="number" min="0" max="255" value="255"></label>
+            <label>G<input id="keypressG" type="number" min="0" max="255" value="255"></label>
+            <label>B<input id="keypressB" type="number" min="0" max="255" value="255"></label>
+          </div>
+        </div>
+        <div class="row">
+          <button id="getRgbBtn" class="ghost">Get RGB</button>
+          <button id="setRgbBtn">Set RGB</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Keypress Light Settings</h2>
+        <div class="row two">
+          <label>
+            Light mode
+            <input id="lightMode" type="number" min="0" max="8" value="0">
+          </label>
+          <label>
+            Color mode
+            <select id="colorMode">
+              <option value="0">Fixed</option>
+              <option value="1">Random</option>
+            </select>
+          </label>
+        </div>
+        <div class="row two">
+          <label>
+            Speed
+            <input id="lightSpeed" type="number" min="0" max="255" value="77">
+          </label>
+          <label>
+            Brightness
+            <input id="lightBrightness" type="number" min="0" max="255" value="255">
+          </label>
+        </div>
+        <div class="row">
+          <button id="readLightBtn" class="ghost">Read All</button>
+          <button id="setModeBtn">Set Mode</button>
+          <button id="setSpeedBtn">Set Speed</button>
+          <button id="setColorModeBtn">Set Color Mode</button>
+          <button id="setBrightnessBtn">Set Brightness</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Base Layer Brightness</h2>
+        <div class="row two">
+          <label>
+            Brightness
+            <input id="baseBrightness" type="number" min="0" max="100" value="70">
+          </label>
+          <div class="hint">
+            Set uses <code>FA 71 [brightness]</code> on the active profile.
+            Current firmware's <code>0x72</code> path appears to log a value but does not send a HID response yet.
+          </div>
+        </div>
+        <div class="row">
+          <button id="setBaseBtn">Set Base Brightness</button>
+          <button id="getBaseBtn" class="ghost">Try Get Base Brightness</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>Raw Command</h2>
+        <div class="row">
+          <label style="width:100%">
+            Space-separated hex bytes, without report ID
+            <textarea id="rawCommand">FA 39 FF 00 80</textarea>
+          </label>
+        </div>
+        <div class="row">
+          <label class="pill">
+            <input id="expectResponse" type="checkbox">
+            Wait for response
+          </label>
+          <button id="sendRawBtn" class="alt">Send Raw Command</button>
+        </div>
+      </section>
+
+      <section class="panel" style="grid-column: 1 / -1;">
+        <h2>Log</h2>
+        <div class="row">
+          <button id="clearLogBtn" class="ghost">Clear Log</button>
+        </div>
+        <pre id="logView"></pre>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const VENDOR_ID = 0x3233;
+    const PRODUCT_ID = 0x2501;
+    const RAW_USAGE_PAGE = 0xFF60;
+    const PROFILE_NAMES = {
+      0: "PROF_VIA",
+      1: "PROF_0",
+      2: "PROF_1",
+      3: "PROF_2"
+    };
+
+    const els = {
+      connectBtn: document.getElementById("connectBtn"),
+      reconnectBtn: document.getElementById("reconnectBtn"),
+      deviceStatus: document.getElementById("deviceStatus"),
+      deviceMeta: document.getElementById("deviceMeta"),
+      profileSelect: document.getElementById("profileSelect"),
+      activeProfile: document.getElementById("activeProfile"),
+      compatSwitch: document.getElementById("compatSwitch"),
+      keypressColor: document.getElementById("keypressColor"),
+      keypressR: document.getElementById("keypressR"),
+      keypressG: document.getElementById("keypressG"),
+      keypressB: document.getElementById("keypressB"),
+      lightMode: document.getElementById("lightMode"),
+      colorMode: document.getElementById("colorMode"),
+      lightSpeed: document.getElementById("lightSpeed"),
+      lightBrightness: document.getElementById("lightBrightness"),
+      baseBrightness: document.getElementById("baseBrightness"),
+      rawCommand: document.getElementById("rawCommand"),
+      expectResponse: document.getElementById("expectResponse"),
+      logView: document.getElementById("logView")
+    };
+
+    const hidState = {
+      device: null,
+      reportId: 0,
+      outputLength: 64,
+      inputQueue: [],
+      waiters: []
+    };
+
+    function log(message) {
+      const stamp = new Date().toLocaleTimeString();
+      els.logView.textContent += `[${stamp}] ${message}\n`;
+      els.logView.scrollTop = els.logView.scrollHeight;
+    }
+
+    function setStatus(text, connected) {
+      els.deviceStatus.innerHTML = `Status: <strong class="${connected ? "ok" : "warn"}">${text}</strong>`;
+    }
+
+    function bytesToHex(bytes) {
+      return Array.from(bytes, (b) => b.toString(16).padStart(2, "0").toUpperCase()).join(" ");
+    }
+
+    function clampByte(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) {
+        throw new Error(`Invalid byte value: ${value}`);
+      }
+      return Math.max(0, Math.min(255, Math.round(number)));
+    }
+
+    function parseHexInput(text) {
+      return text
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .map((part) => {
+          const value = Number.parseInt(part, 16);
+          if (!Number.isInteger(value) || value < 0 || value > 255) {
+            throw new Error(`Invalid hex byte: ${part}`);
+          }
+          return value;
+        });
+    }
+
+    function syncRgbNumbersFromColor() {
+      const hex = els.keypressColor.value.replace("#", "");
+      els.keypressR.value = parseInt(hex.slice(0, 2), 16);
+      els.keypressG.value = parseInt(hex.slice(2, 4), 16);
+      els.keypressB.value = parseInt(hex.slice(4, 6), 16);
+    }
+
+    function syncColorFromRgbNumbers() {
+      const r = clampByte(els.keypressR.value);
+      const g = clampByte(els.keypressG.value);
+      const b = clampByte(els.keypressB.value);
+      els.keypressColor.value = `#${[r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("")}`;
+    }
+
+    function reportLengthFromReports(reports) {
+      let maxBytes = 0;
+      for (const report of reports || []) {
+        let bits = 0;
+        for (const item of report.items || []) {
+          bits += (item.reportSize || 0) * (item.reportCount || 0);
+        }
+        maxBytes = Math.max(maxBytes, Math.ceil(bits / 8));
+      }
+      return maxBytes;
+    }
+
+    function getPreferredCollections(device) {
+      const rawCollections = (device.collections || []).filter((collection) => collection.usagePage === RAW_USAGE_PAGE);
+      return rawCollections.length ? rawCollections : (device.collections || []);
+    }
+
+    function inferOutputLength(device) {
+      let maxBytes = 0;
+      for (const collection of getPreferredCollections(device)) {
+        maxBytes = Math.max(maxBytes, reportLengthFromReports(collection.outputReports));
+      }
+      return maxBytes || 64;
+    }
+
+    function inferReportId(device) {
+      for (const collection of getPreferredCollections(device)) {
+        if (collection.outputReports && collection.outputReports.length > 0) {
+          return collection.outputReports[0].reportId || 0;
+        }
+      }
+      return 0;
+    }
+
+    function describeDevice(device) {
+      return `${device.productName || "Unknown"} | vendor 0x${device.vendorId.toString(16)} | product 0x${device.productId.toString(16)}`;
+    }
+
+    function sleep(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+
+    async function ensureHidAvailable() {
+      if (!("hid" in navigator)) {
+        throw new Error("WebHID is not available in this browser.");
+      }
+    }
+
+    async function openDevice(device) {
+      if (!device.opened) {
+        await device.open();
+      }
+
+      hidState.device = device;
+      hidState.reportId = inferReportId(device);
+      hidState.outputLength = inferOutputLength(device);
+      hidState.inputQueue = [];
+      hidState.waiters = [];
+
+      device.addEventListener("inputreport", handleInputReport);
+
+      setStatus("Connected", true);
+      els.deviceMeta.textContent = `${describeDevice(device)} | reportId ${hidState.reportId} | outputLength ${hidState.outputLength}`;
+      log(`Connected: ${describeDevice(device)}`);
+    }
+
+    function handleInputReport(event) {
+      const bytes = new Uint8Array(event.data.buffer.slice(0));
+      log(`IN  [${event.reportId}] ${bytesToHex(bytes)}`);
+      const waiter = hidState.waiters.shift();
+      if (waiter) {
+        waiter(bytes);
+      } else {
+        hidState.inputQueue.push(bytes);
+      }
+    }
+
+    async function connectDevice() {
+      await ensureHidAvailable();
+      const devices = await navigator.hid.requestDevice({
+        filters: [{ vendorId: VENDOR_ID, productId: PRODUCT_ID, usagePage: RAW_USAGE_PAGE }]
+      });
+      if (!devices.length) {
+        return;
+      }
+      await openDevice(devices[0]);
+      await refreshActiveProfile();
+    }
+
+    async function reconnectKnownDevice() {
+      await ensureHidAvailable();
+      const devices = await navigator.hid.getDevices();
+      const device = devices.find((entry) => entry.vendorId === VENDOR_ID && entry.productId === PRODUCT_ID);
+      if (!device) {
+        throw new Error("No previously approved device found.");
+      }
+      await openDevice(device);
+      await refreshActiveProfile();
+    }
+
+    async function ensureConnected() {
+      if (!hidState.device || !hidState.device.opened) {
+        throw new Error("Device is not connected.");
+      }
+      return hidState.device;
+    }
+
+    function clearPendingResponses() {
+      hidState.inputQueue.length = 0;
+    }
+
+    async function waitForResponse(timeoutMs = 1000) {
+      if (hidState.inputQueue.length > 0) {
+        return hidState.inputQueue.shift();
+      }
+
+      return new Promise((resolve, reject) => {
+        const timer = setTimeout(() => {
+          const index = hidState.waiters.indexOf(onData);
+          if (index >= 0) {
+            hidState.waiters.splice(index, 1);
+          }
+          reject(new Error(`Timed out after ${timeoutMs} ms waiting for HID response.`));
+        }, timeoutMs);
+
+        function onData(data) {
+          clearTimeout(timer);
+          resolve(data);
+        }
+
+        hidState.waiters.push(onData);
+      });
+    }
+
+    async function sendCommand(bytes, options = {}) {
+      const { expectResponse = false, timeoutMs = 1000 } = options;
+      const device = await ensureConnected();
+      const payload = new Uint8Array(hidState.outputLength);
+      payload.set(bytes.slice(0, hidState.outputLength));
+
+      clearPendingResponses();
+      log(`OUT [${hidState.reportId}] ${bytesToHex(bytes)}`);
+      await device.sendReport(hidState.reportId, payload);
+
+      if (!expectResponse) {
+        return null;
+      }
+
+      return waitForResponse(timeoutMs);
+    }
+
+    async function getActiveProfile() {
+      const response = await sendCommand([0xFA, 0x68], { expectResponse: true });
+      return response[0];
+    }
+
+    async function setActiveProfile(profile) {
+      await sendCommand([0xFA, 0x60, clampByte(profile)]);
+      await sleep(120);
+    }
+
+    async function refreshActiveProfile() {
+      try {
+        const profile = await getActiveProfile();
+        els.activeProfile.value = `${PROFILE_NAMES[profile] || `Unknown (${profile})`} [${profile}]`;
+        log(`Active profile: ${PROFILE_NAMES[profile] || profile}`);
+        return profile;
+      } catch (error) {
+        els.activeProfile.value = `Read failed: ${error.message}`;
+        throw error;
+      }
+    }
+
+    async function withSelectedProfile(action) {
+      const targetProfile = Number(els.profileSelect.value);
+      const compatEnabled = els.compatSwitch.checked;
+
+      if (!compatEnabled) {
+        return action();
+      }
+
+      const previousProfile = await getActiveProfile();
+      if (previousProfile === targetProfile) {
+        return action();
+      }
+
+      log(`Compatibility switch: ${PROFILE_NAMES[previousProfile]} -> ${PROFILE_NAMES[targetProfile]}`);
+      await setActiveProfile(targetProfile);
+
+      try {
+        return await action();
+      } finally {
+        await setActiveProfile(previousProfile);
+        log(`Compatibility restore: ${PROFILE_NAMES[previousProfile]}`);
+        await refreshActiveProfile();
+      }
+    }
+
+    async function readLightSettings() {
+      const mode = await withSelectedProfile(async () => {
+        const modeResp = await sendCommand([0xFA, 0x32], { expectResponse: true });
+        const speedResp = await sendCommand([0xFA, 0x37], { expectResponse: true });
+        const colorModeResp = await sendCommand([0xFA, 0x3C], { expectResponse: true });
+        const brightnessResp = await sendCommand([0xFA, 0x3E], { expectResponse: true });
+
+        els.lightMode.value = modeResp[0];
+        els.lightSpeed.value = speedResp[0];
+        els.colorMode.value = String(colorModeResp[0]);
+        els.lightBrightness.value = brightnessResp[0];
+        log(`Read light settings: mode=${modeResp[0]} speed=${speedResp[0]} colorMode=${colorModeResp[0]} brightness=${brightnessResp[0]}`);
+      });
+
+      return mode;
+    }
+
+    async function readKeypressRgb() {
+      await withSelectedProfile(async () => {
+        const response = await sendCommand([0xFA, 0x3A], { expectResponse: true });
+        els.keypressR.value = response[0];
+        els.keypressG.value = response[1];
+        els.keypressB.value = response[2];
+        syncColorFromRgbNumbers();
+        log(`Read keypress RGB: R=${response[0]} G=${response[1]} B=${response[2]}`);
+      });
+    }
+
+    async function setKeypressRgb() {
+      syncColorFromRgbNumbers();
+      const r = clampByte(els.keypressR.value);
+      const g = clampByte(els.keypressG.value);
+      const b = clampByte(els.keypressB.value);
+
+      await withSelectedProfile(() => sendCommand([0xFA, 0x39, r, g, b]));
+      log(`Set keypress RGB: R=${r} G=${g} B=${b}`);
+    }
+
+    async function setLightMode() {
+      const value = clampByte(els.lightMode.value);
+      if (value > 8) {
+        throw new Error("Light mode must be 0..8.");
+      }
+      await withSelectedProfile(() => sendCommand([0xFA, 0x31, value]));
+      log(`Set keypress light mode: ${value}`);
+    }
+
+    async function setLightSpeed() {
+      const value = clampByte(els.lightSpeed.value);
+      await withSelectedProfile(() => sendCommand([0xFA, 0x36, value]));
+      log(`Set keypress light speed: ${value}`);
+    }
+
+    async function setColorMode() {
+      const value = clampByte(els.colorMode.value);
+      if (value > 1) {
+        throw new Error("Color mode must be 0 or 1.");
+      }
+      await withSelectedProfile(() => sendCommand([0xFA, 0x3B, value]));
+      log(`Set color mode: ${value}`);
+    }
+
+    async function setBrightness() {
+      const value = clampByte(els.lightBrightness.value);
+      await withSelectedProfile(() => sendCommand([0xFA, 0x3D, value]));
+      log(`Set keypress brightness: ${value}`);
+    }
+
+    async function setBaseBrightness() {
+      const value = clampByte(els.baseBrightness.value);
+      if (value > 100) {
+        throw new Error("Base brightness must be 0..100.");
+      }
+      await withSelectedProfile(() => sendCommand([0xFA, 0x71, value]));
+      log(`Set base layer brightness: ${value}`);
+    }
+
+    async function tryGetBaseBrightness() {
+      await withSelectedProfile(async () => {
+        const response = await sendCommand([0xFA, 0x72], { expectResponse: true, timeoutMs: 1200 });
+        log(`Base brightness response: ${bytesToHex(response)}`);
+      });
+    }
+
+    async function sendRawFromText() {
+      const bytes = parseHexInput(els.rawCommand.value);
+      const response = await sendCommand(bytes, { expectResponse: els.expectResponse.checked, timeoutMs: 1200 });
+      if (response) {
+        log(`RAW response parsed: ${bytesToHex(response)}`);
+      }
+    }
+
+    async function safeRun(task) {
+      try {
+        await task();
+      } catch (error) {
+        log(`ERROR: ${error.message}`);
+        alert(error.message);
+      }
+    }
+
+    els.connectBtn.addEventListener("click", () => safeRun(connectDevice));
+    els.reconnectBtn.addEventListener("click", () => safeRun(reconnectKnownDevice));
+    document.getElementById("getProfileBtn").addEventListener("click", () => safeRun(refreshActiveProfile));
+    document.getElementById("setProfileBtn").addEventListener("click", () => safeRun(async () => {
+      await setActiveProfile(Number(els.profileSelect.value));
+      await refreshActiveProfile();
+    }));
+    document.getElementById("getRgbBtn").addEventListener("click", () => safeRun(readKeypressRgb));
+    document.getElementById("setRgbBtn").addEventListener("click", () => safeRun(setKeypressRgb));
+    document.getElementById("readLightBtn").addEventListener("click", () => safeRun(readLightSettings));
+    document.getElementById("setModeBtn").addEventListener("click", () => safeRun(setLightMode));
+    document.getElementById("setSpeedBtn").addEventListener("click", () => safeRun(setLightSpeed));
+    document.getElementById("setColorModeBtn").addEventListener("click", () => safeRun(setColorMode));
+    document.getElementById("setBrightnessBtn").addEventListener("click", () => safeRun(setBrightness));
+    document.getElementById("setBaseBtn").addEventListener("click", () => safeRun(setBaseBrightness));
+    document.getElementById("getBaseBtn").addEventListener("click", () => safeRun(tryGetBaseBrightness));
+    document.getElementById("sendRawBtn").addEventListener("click", () => safeRun(sendRawFromText));
+    document.getElementById("clearLogBtn").addEventListener("click", () => {
+      els.logView.textContent = "";
+    });
+
+    els.keypressColor.addEventListener("input", syncRgbNumbersFromColor);
+    [els.keypressR, els.keypressG, els.keypressB].forEach((input) => {
+      input.addEventListener("input", () => {
+        try {
+          syncColorFromRgbNumbers();
+        } catch (_) {
+        }
+      });
+    });
+
+    navigator.hid?.addEventListener("disconnect", (event) => {
+      if (hidState.device && event.device === hidState.device) {
+        log("Device disconnected.");
+        hidState.device = null;
+        setStatus("Disconnected", false);
+        els.deviceMeta.textContent = "Device disconnected.";
+      }
+    });
+
+    setStatus("Disconnected", false);
+    syncRgbNumbersFromColor();
+    log("Page ready. Connect the keyboard in USB mode, then test RGB commands.");
+  </script>
+</body>
+</html>
